@@ -21,8 +21,6 @@ export const defaultState = (): LayoutState => {
           { id: 'toolhead-card', enabled: true, collapsed: false },
           { id: 'macros-card', enabled: true, collapsed: false },
           { id: 'outputs-card', enabled: true, collapsed: false },
-          { id: 'k2-fans-card', enabled: true, collapsed: false },
-          { id: 'k2-filament-card', enabled: true, collapsed: false },
           { id: 'runout-sensors-card', enabled: false, collapsed: false },
           { id: 'printer-limits-card', enabled: true, collapsed: false },
           { id: 'retract-card', enabled: true, collapsed: false }
@@ -31,6 +29,8 @@ export const defaultState = (): LayoutState => {
           { id: 'temperature-card', enabled: true, collapsed: false },
           { id: 'sensors-card', enabled: true, collapsed: false },
           { id: 'console-card', enabled: true, collapsed: false },
+          { id: 'k2-fans-card', enabled: true, collapsed: false },
+          { id: 'k2-filament-card', enabled: true, collapsed: false },
           { id: 'jobs-card', enabled: true, collapsed: false },
           { id: 'job-queue-card', enabled: false, collapsed: false },
           { id: 'gcode-preview-card', enabled: true, collapsed: false },

@@ -65,8 +65,13 @@ currently loaded filament.
 
 ## Promote
 
-RC1 hardware feedback: all three fan controls and CFS Feed/Retract passed owner
-testing. Humidity is shown once per CFS unit at the lower right of the card.
+RC1 hardware feedback: all three fan controls, CFS Feed/Retract, the installed
+Z-offset editors and Bed Assist UIs passed owner testing. Humidity is shown once
+per CFS unit at the lower right of the card.
+
+The factory dashboard defaults place K2 Fans and K2 Filament / CFS in the right
+column immediately after Console and before Jobs. Existing saved layouts keep
+their card positions; reset the default layout to adopt the new factory order.
 
 After hardware verification, merge the Fluidd changes into `k2`, bump version and
 changelog, then tag that commit. The release workflow checks that the tagged
