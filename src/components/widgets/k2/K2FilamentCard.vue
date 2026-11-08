@@ -42,12 +42,6 @@
             v-if="slot.percent !== null"
             class="d-block text-caption"
           >{{ slot.percent }}%</span>
-          <span
-            v-if="!slot.external && slot.humidity !== null"
-            class="d-block text-caption"
-          >
-            {{ $t('app.k2.label.humidity') }} {{ slot.humidity }}%
-          </span>
         </button>
       </div>
       <div
@@ -69,21 +63,38 @@
         {{ $t('app.k2.label.auto_refill') }}:
         {{ $t(device.auto_refill ? 'app.general.label.on' : 'app.general.label.off') }}
       </div>
-      <app-btn
-        :disabled="!canMove"
-        :loading="sending"
-        @click="move('feed')"
-      >
-        {{ $t('app.k2.btn.feed') }}
-      </app-btn>
-      <app-btn
-        class="ml-2"
-        :disabled="!canMove"
-        :loading="sending"
-        @click="move('retract')"
-      >
-        {{ $t('app.k2.btn.retract') }}
-      </app-btn>
+      <div class="d-flex flex-wrap align-center k2-footer">
+        <div>
+          <app-btn
+            :disabled="!canMove"
+            :loading="sending"
+            @click="move('feed')"
+          >
+            {{ $t('app.k2.btn.feed') }}
+          </app-btn>
+          <app-btn
+            class="ml-2"
+            :disabled="!canMove"
+            :loading="sending"
+            @click="move('retract')"
+          >
+            {{ $t('app.k2.btn.retract') }}
+          </app-btn>
+        </div>
+        <div
+          v-if="deviceReady && humidities.length"
+          class="d-flex flex-wrap justify-end ml-auto k2-humidities"
+        >
+          <span
+            v-for="box in humidities"
+            :key="box.id"
+            class="k2-humidity text-caption"
+          >
+            <span v-if="humidities.length > 1">CFS {{ box.id }} · </span>
+            {{ $t('app.k2.label.humidity') }} {{ box.value }}%
+          </span>
+        </div>
+      </div>
       <div
         v-if="deviceReady && !device.can_feed && !device.pending"
         class="text-caption mt-3"
@@ -103,6 +114,16 @@ import type { K2Slot } from '@/store/k2Device/types'
 @Component
 export default class K2FilamentCard extends Mixins(K2DeviceMixin) {
   selected = ''
+
+  get humidities () {
+    const boxes = new Map<number, number>()
+    for (const slot of this.device.slots) {
+      if (!slot.external && slot.humidity !== null && !boxes.has(slot.box_id)) {
+        boxes.set(slot.box_id, slot.humidity)
+      }
+    }
+    return Array.from(boxes, ([id, value]) => ({ id, value }))
+  }
 
   slotKey (slot: K2Slot) {
     return `${slot.box_id}:${slot.slot_id}`
@@ -139,6 +160,9 @@ export default class K2FilamentCard extends Mixins(K2DeviceMixin) {
 
 <style scoped>
 .k2-slots { display: flex; flex-wrap: wrap; gap: 12px; }
+.k2-footer { gap: 12px; }
+.k2-humidities { gap: 8px; }
+.k2-humidity { padding: 4px 10px; border: 1px solid rgba(128, 128, 128, .3); border-radius: 4px; }
 .k2-slot { color: inherit; flex: 1 1 90px; border: 2px solid rgba(128, 128, 128, .3); border-radius: 8px; overflow-wrap: anywhere; }
 .k2-slot:disabled { opacity: .5; }
 .k2-slot:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }

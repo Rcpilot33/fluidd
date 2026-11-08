@@ -65,6 +65,9 @@ currently loaded filament.
 
 ## Promote
 
+RC1 hardware feedback: all three fan controls and CFS Feed/Retract passed owner
+testing. Humidity is shown once per CFS unit at the lower right of the card.
+
 After hardware verification, merge the Fluidd changes into `k2`, bump version and
 changelog, then tag that commit. The release workflow checks that the tagged
 commit belongs to `k2`, packages the complete ZIP and publishes the normal release.
