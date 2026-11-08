@@ -57,17 +57,25 @@ On the test printer check:
 - Creality camera playback, existing layout persistence and mobile layout.
 - Reinstall/update behavior and restoration of the saved previous UI.
 
-Do not use the published Fluidd Update button during local-ZIP testing: it still
-targets the stable release and can replace the test UI. The first version shows
+Use the K2-improvements installer menus to update the pinned test ZIP. After
+the installer’s test-updater isolation migration is applied, the stable Fluidd
+web updater is absent from the software-update list during testing. The first version shows
 auto-refill state but does not edit filament profiles, reread RFID, or change
 auto-refill. The slot highlight is the user's selection, not a claim about the
 currently loaded filament.
 
 ## Promote
 
-RC1 hardware feedback: all three fan controls, CFS Feed/Retract, the installed
-Z-offset editors and Bed Assist UIs passed owner testing. Humidity is shown once
-per CFS unit at the lower right of the card.
+RC1 hardware checks completed with one CFS unit:
+
+- All three fan controls and idle CFS Feed/Retract passed owner testing.
+- Feed/Retract remained disabled during a print and while paused.
+- The installed Z-offset editors and Bed Assist UIs worked.
+- Camera playback and card reconnection worked after a power-cycle.
+
+Four units and per-unit humidity were verified with simulated data. Physical
+multi-unit testing was not performed. A Creality Print attempt reported XD0114;
+the retry proceeded into printing. The initial transfer failure was not isolated.
 
 The factory dashboard defaults place K2 Fans and K2 Filament / CFS in the right
 column immediately after Console and before Jobs. Existing saved layouts keep
