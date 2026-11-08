@@ -262,6 +262,7 @@ export const Globals = Object.freeze({
     }
   },
   MOONRAKER_COMPONENTS: {
+    k2Device: { name: 'k2_device', dispatch: 'k2Device/init' },
     auth: { name: 'authorization', dispatch: 'auth/init' },
     power: { name: 'power', dispatch: 'power/init' },
     updateManager: { name: 'update_manager', dispatch: 'version/init' },

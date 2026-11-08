@@ -9,9 +9,18 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout
         uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Require a release commit from k2
+        run: |
+          git fetch origin k2
+          git merge-base --is-ancestor "$GITHUB_SHA" origin/k2
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v6
@@ -49,9 +58,7 @@ jobs:
           pnpm run build
 
       - name: Create Artifact
-        run: |
-          cd ./dist
-          zip -r ../fluidd.zip ./
+        run: python3 tools/package_k2_build.py
 
       - name: Get version from tag
         id: tag_name

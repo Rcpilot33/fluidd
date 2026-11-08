@@ -1,3 +1,8 @@
+import type { GlobalPrTouchSurface } from '@/util/prtouch-global-offsets'
+import type { M191Setting } from '@/util/m191-settings'
+export type { M191Setting } from '@/util/m191-settings'
+export type { GlobalPrTouchSurface } from '@/util/prtouch-global-offsets'
+
 export interface ConsoleState {
   // [key: string]: string;
   consoleCommand: string;
@@ -9,6 +14,10 @@ export interface ConsoleState {
   autoScroll: boolean;
   lastCleared: number;
   promptDialog: PromptDialog;
+  globalTouchOffsetsDialog: GlobalTouchOffsetsDialog;
+  globalPrTouchOffsetsDialog: GlobalPrTouchOffsetsDialog;
+  materialZOffsetsDialog: MaterialZOffsetsDialog;
+  m191SettingsDialog: M191SettingsDialog;
   consoleFilters: ConsoleFilter[];
   consoleFiltersRegexp: RegExp[];
 }
@@ -46,6 +55,41 @@ export interface PromptDialogItemText {
 
 export interface PromptDialogItemButton extends PromptDialogButton {
   type: 'button';
+}
+
+export interface GlobalTouchOffsetModel {
+  index: number;
+  name: string;
+  value: number;
+}
+
+export interface GlobalPrTouchOffsetsDialog {
+  open: boolean;
+  selectedIndex: number;
+  increment: number;
+  surfaces: GlobalPrTouchSurface[];
+}
+
+export interface GlobalTouchOffsetsDialog {
+  open: boolean;
+  mode: 'touch' | 'scan';
+  models: GlobalTouchOffsetModel[];
+}
+
+export interface MaterialZOffset {
+  index: number;
+  name: string;
+  value: number;
+}
+
+export interface MaterialZOffsetsDialog {
+  open: boolean;
+  materials: MaterialZOffset[];
+}
+
+export interface M191SettingsDialog {
+  open: boolean;
+  settings: M191Setting[];
 }
 
 export interface PromptDialogButton {

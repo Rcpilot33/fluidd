@@ -68,6 +68,10 @@
         <updating-dialog />
         <spool-selection-dialog />
         <action-command-prompt-dialog />
+        <global-touch-offsets-dialog />
+        <global-pr-touch-offsets-dialog />
+        <material-z-offsets-dialog />
+        <m191-settings-dialog />
         <keyboard-shortcuts-dialog />
         <manual-probe-dialog />
         <bed-screws-adjust-dialog />
@@ -100,6 +104,10 @@ import type { FlashMessage } from '@/types'
 import { getFilesFromDataTransfer, hasFilesInDataTransfer } from '@/util/file-system-entry'
 import type { ThemeConfig } from '@/store/config/types'
 import ActionCommandPromptDialog from '@/components/common/ActionCommandPromptDialog.vue'
+import GlobalTouchOffsetsDialog from '@/components/common/GlobalTouchOffsetsDialog.vue'
+import GlobalPrTouchOffsetsDialog from '@/components/common/GlobalPrTouchOffsetsDialog.vue'
+import MaterialZOffsetsDialog from '@/components/common/MaterialZOffsetsDialog.vue'
+import M191SettingsDialog from '@/components/common/M191SettingsDialog.vue'
 import KeyboardShortcutsDialog from '@/components/common/KeyboardShortcutsDialog.vue'
 import { eventTargetIsContentEditable, keyboardEventToKeyboardShortcut } from '@/util/event-helpers'
 import MmuEditTtgMapDialog from './components/widgets/mmu/MmuEditTtgMapDialog.vue'
@@ -117,6 +125,10 @@ import MmuEditTtgMapDialog from './components/widgets/mmu/MmuEditTtgMapDialog.vu
     FileSystemDownloadDialog,
     FileSystemUploadDialog,
     ActionCommandPromptDialog,
+    GlobalTouchOffsetsDialog,
+    GlobalPrTouchOffsetsDialog,
+    MaterialZOffsetsDialog,
+    M191SettingsDialog,
     KeyboardShortcutsDialog,
     MmuEditTtgMapDialog
   }

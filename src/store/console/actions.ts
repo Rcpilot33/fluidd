@@ -1,9 +1,10 @@
 import type { ActionTree } from 'vuex'
 import { Globals } from '@/globals'
-import type { ConsoleEntry, ConsoleFilter, ConsoleState, PromptDialogButton, PromptDialogItemButton, PromptDialogItemText } from './types'
+import type { ConsoleEntry, ConsoleFilter, ConsoleState, GlobalTouchOffsetModel, M191Setting, MaterialZOffset, PromptDialogButton, PromptDialogItemButton, PromptDialogItemText } from './types'
 import type { RootState } from '../types'
 import { SocketActions } from '@/api/socketActions'
 import DOMPurify from 'dompurify'
+import { parsePrTouchGlobalAction } from '@/util/prtouch-global-offsets'
 import { takeRightWhile } from 'lodash-es'
 
 export const actions = {
@@ -57,6 +58,10 @@ export const actions = {
     commit('setConsoleEntry', payload)
 
     dispatch('onUpdatePromptDialog', payload)
+    dispatch('onUpdateGlobalTouchOffsetsDialog', payload)
+    dispatch('onUpdateGlobalPrTouchOffsetsDialog', payload)
+    dispatch('onUpdateMaterialZOffsetsDialog', payload)
+    dispatch('onUpdateM191SettingsDialog', payload)
   },
 
   /**
@@ -157,6 +162,142 @@ export const actions = {
         case 'end':
           commit('setPromptDialogOpen', type === 'show')
       }
+    }
+  },
+
+  async onUpdateGlobalPrTouchOffsetsDialog ({ commit }, payload: ConsoleEntry) {
+    if (payload.type !== 'action') return
+    const action = parsePrTouchGlobalAction(payload.message)
+    if (!action) return
+    switch (action.type) {
+      case 'begin':
+        commit('setBeginGlobalPrTouchOffsetsDialog', action)
+        break
+      case 'surface':
+        commit('setGlobalPrTouchSurface', action.surface)
+        break
+      case 'show':
+      case 'end':
+        commit('setGlobalPrTouchOffsetsDialogOpen', action.type === 'show')
+        break
+    }
+  },
+
+  async onUpdateGlobalTouchOffsetsDialog ({ commit }, payload: ConsoleEntry) {
+    const parsedMessage = (
+      payload.type === 'action' &&
+      /^\/\/ action:global_carto_offsets_([^ ]+)(?: (.+))?/.exec(payload.message)
+    )
+
+    if (!parsedMessage) return
+
+    const [, type, param] = parsedMessage
+    switch (type) {
+      case 'begin':
+        commit('setResetGlobalTouchOffsetsDialog')
+        if (param === 'touch' || param === 'scan') {
+          commit('setGlobalTouchOffsetsDialogMode', param)
+        }
+        break
+
+      case 'model': {
+        if (!param) return
+        const [name, valueText, indexText] = param.split('|')
+        const value = Number(valueText)
+        const index = Number(indexText)
+        if (name && Number.isFinite(value) && Number.isInteger(index) && index >= 0) {
+          const model: GlobalTouchOffsetModel = { name, value, index }
+          commit('setGlobalTouchOffsetModel', model)
+        }
+        break
+      }
+
+      case 'show':
+      case 'end':
+        commit('setGlobalTouchOffsetsDialogOpen', type === 'show')
+        break
+    }
+  },
+
+  async onUpdateMaterialZOffsetsDialog ({ commit }, payload: ConsoleEntry) {
+    const parsedMessage = (
+      payload.type === 'action' &&
+      /^\/\/ action:material_z_offsets_([^ ]+)(?: (.+))?/.exec(payload.message)
+    )
+
+    if (!parsedMessage) return
+
+    const [, type, param] = parsedMessage
+    switch (type) {
+      case 'begin':
+        commit('setResetMaterialZOffsetsDialog')
+        break
+
+      case 'material': {
+        if (!param) return
+        const [name, valueText, indexText] = param.split('|')
+        const value = Number(valueText)
+        const index = Number(indexText)
+        if (name && Number.isFinite(value) && Number.isInteger(index) && index >= 0) {
+          const material: MaterialZOffset = { name, value, index }
+          commit('setMaterialZOffset', material)
+        }
+        break
+      }
+
+      case 'show':
+      case 'end':
+        commit('setMaterialZOffsetsDialogOpen', type === 'show')
+        break
+    }
+  },
+
+  async onUpdateM191SettingsDialog ({ commit }, payload: ConsoleEntry) {
+    const parsedMessage = (
+      payload.type === 'action' &&
+      /^\/\/ action:m191_settings_([^ ]+)(?: (.+))?/.exec(payload.message)
+    )
+
+    if (!parsedMessage) return
+
+    const [, type, param] = parsedMessage
+    switch (type) {
+      case 'begin':
+        commit('setResetM191SettingsDialog')
+        break
+
+      case 'setting': {
+        if (!param) return
+        const [key, label, valueText, minimumText, maximumText, unit, indexText, kind, exclusiveText] = param.split('|')
+        const value = Number(valueText)
+        const minimum = Number(minimumText)
+        const maximum = Number(maximumText)
+        const index = Number(indexText)
+        if (
+          key && label && Number.isFinite(value) && Number.isFinite(minimum) &&
+          Number.isFinite(maximum) && Number.isInteger(index) && index >= 0 &&
+          (kind === 'number' || kind === 'boolean')
+        ) {
+          const setting: M191Setting = {
+            key,
+            label,
+            value,
+            minimum,
+            maximum,
+            unit,
+            index,
+            kind,
+            exclusiveMinimum: exclusiveText === '1'
+          }
+          commit('setM191Setting', setting)
+        }
+        break
+      }
+
+      case 'show':
+      case 'end':
+        commit('setM191SettingsDialogOpen', type === 'show')
+        break
     }
   },
 

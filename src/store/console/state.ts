@@ -15,6 +15,25 @@ export const defaultState = (): ConsoleState => {
       items: [],
       footerButtons: []
     },
+    globalTouchOffsetsDialog: {
+      open: false,
+      mode: 'touch',
+      models: []
+    },
+    globalPrTouchOffsetsDialog: {
+      open: false,
+      selectedIndex: 0,
+      increment: 0.010,
+      surfaces: []
+    },
+    materialZOffsetsDialog: {
+      open: false,
+      materials: []
+    },
+    m191SettingsDialog: {
+      open: false,
+      settings: []
+    },
     consoleFilters: [],
     consoleFiltersRegexp: []
   }

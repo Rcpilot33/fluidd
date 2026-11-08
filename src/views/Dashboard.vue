@@ -55,6 +55,8 @@ import SensorsCard from '@/components/widgets/sensors/SensorsCard.vue'
 import RunoutSensorsCard from '@/components/widgets/runout-sensors/RunoutSensorsCard.vue'
 import BeaconCard from '@/components/widgets/beacon/BeaconCard.vue'
 import AfcCard from '@/components/widgets/afc/AfcCard.vue'
+import K2FansCard from '@/components/widgets/k2/K2FansCard.vue'
+import K2FilamentCard from '@/components/widgets/k2/K2FilamentCard.vue'
 import type Sortable from 'sortablejs'
 
 @Component({
@@ -77,7 +79,9 @@ import type Sortable from 'sortablejs'
     SensorsCard,
     RunoutSensorsCard,
     BeaconCard,
-    AfcCard
+    AfcCard,
+    K2FansCard,
+    K2FilamentCard
   }
 })
 export default class Dashboard extends Mixins(StateMixin) {
@@ -223,6 +227,8 @@ export default class Dashboard extends Mixins(StateMixin) {
   filtered (item: LayoutConfig) {
     // Take care of special cases.
     if (this.inLayout) return false
+    if ((item.id === 'k2-fans-card' || item.id === 'k2-filament-card') &&
+      !this.$typedGetters['server/componentSupport']('k2_device')) return true
     if (item.id === 'camera-card' && !this.hasCameras) return true
     if (item.id === 'macros-card' && !this.hasMacros) return true
     if (item.id === 'outputs-card' && !this.hasOutputs) return true

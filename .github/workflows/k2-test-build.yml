@@ -1,0 +1,36 @@
+name: K2 test build
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [k2-dashboard-cards]
+  pull_request:
+    branches: [k2]
+
+permissions:
+  contents: read
+
+jobs:
+  test-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: pnpm/action-setup@v6
+        with:
+          run_install: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm i --frozen-lockfile
+      - run: pnpm run lint --no-fix
+      - run: pnpm run type-check
+      - run: pnpm run test:unit --run
+      - run: pnpm run circular-check
+      - run: pnpm run build
+      - run: python3 tools/package_k2_build.py
+      - uses: actions/upload-artifact@v7
+        with:
+          name: k2-fluidd-test-${{ github.sha }}
+          path: fluidd.zip
+          if-no-files-found: error

@@ -1,4 +1,27 @@
 app:
+  k2:
+    title:
+      fans: K2 Fans
+      filament: K2 Filament / CFS
+    label:
+      model_fan: Model fan
+      case_fan: Case fan
+      side_fan: Side fan
+      speed: Speed
+      external: Spool Holder
+      empty: Empty / Unknown
+      humidity: Humidity
+      auto_refill: Auto refill
+    btn:
+      feed: Feed
+      retract: Retract
+    msg:
+      unavailable: Creality device data is unavailable. Controls resume when the printer reconnects.
+      no_slots: No filament slots reported by the printer.
+      select_slot: Select a filament slot, then choose Feed or Retract.
+      pending: Command sent. Waiting for the printer; controls are temporarily locked.
+      busy: Filament controls require fresh data and an idle printer.
+      command_sent: Command sent to the printer.
   afc:
     AfcSettings: "AFC-Settings"
     BrushNozzle: "Brush Nozzle"

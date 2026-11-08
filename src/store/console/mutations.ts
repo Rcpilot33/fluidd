@@ -3,8 +3,9 @@ import { v4 as uuidv4 } from 'uuid'
 import type { MutationTree } from 'vuex'
 import { defaultState } from './state'
 import { Globals } from '@/globals'
-import type { ConsoleEntry, ConsoleFilter, ConsoleState, PromptDialogItemButton, PromptDialogItem } from './types'
+import type { ConsoleEntry, ConsoleFilter, ConsoleState, GlobalTouchOffsetModel, M191Setting, MaterialZOffset, PromptDialogItemButton, PromptDialogItem } from './types'
 import { escapeRegExp } from 'lodash-es'
+import type { GlobalPrTouchSurface } from './types'
 
 const compileExpression = (filter: ConsoleFilter): RegExp => {
   switch (filter.type) {
@@ -69,6 +70,73 @@ export const mutations = {
 
   setPromptDialogOpen (state, payload: boolean) {
     state.promptDialog.open = payload
+  },
+
+  setBeginGlobalPrTouchOffsetsDialog (state, payload: { selectedIndex: number; increment: number }) {
+    state.globalPrTouchOffsetsDialog = {
+      open: state.globalPrTouchOffsetsDialog.open,
+      selectedIndex: payload.selectedIndex,
+      increment: payload.increment,
+      surfaces: []
+    }
+  },
+
+  setGlobalPrTouchSurface (state, payload: GlobalPrTouchSurface) {
+    state.globalPrTouchOffsetsDialog.surfaces.push(payload)
+  },
+
+  setGlobalPrTouchOffsetsDialogOpen (state, payload: boolean) {
+    state.globalPrTouchOffsetsDialog.open = payload
+  },
+
+  setResetGlobalTouchOffsetsDialog (state) {
+    state.globalTouchOffsetsDialog = {
+      open: false,
+      mode: 'touch',
+      models: []
+    }
+  },
+
+  setGlobalTouchOffsetsDialogMode (state, payload: 'touch' | 'scan') {
+    state.globalTouchOffsetsDialog.mode = payload
+  },
+
+  setGlobalTouchOffsetModel (state, payload: GlobalTouchOffsetModel) {
+    state.globalTouchOffsetsDialog.models.push(payload)
+  },
+
+  setGlobalTouchOffsetsDialogOpen (state, payload: boolean) {
+    state.globalTouchOffsetsDialog.open = payload
+  },
+
+  setResetMaterialZOffsetsDialog (state) {
+    state.materialZOffsetsDialog = {
+      open: false,
+      materials: []
+    }
+  },
+
+  setMaterialZOffset (state, payload: MaterialZOffset) {
+    state.materialZOffsetsDialog.materials.push(payload)
+  },
+
+  setMaterialZOffsetsDialogOpen (state, payload: boolean) {
+    state.materialZOffsetsDialog.open = payload
+  },
+
+  setResetM191SettingsDialog (state) {
+    state.m191SettingsDialog = {
+      open: false,
+      settings: []
+    }
+  },
+
+  setM191Setting (state, payload: M191Setting) {
+    state.m191SettingsDialog.settings.push(payload)
+  },
+
+  setM191SettingsDialogOpen (state, payload: boolean) {
+    state.m191SettingsDialog.open = payload
   },
 
   /**

@@ -12,6 +12,7 @@ import type { HistoryItem } from '../history/types'
 import i18n from '@/plugins/i18n'
 
 const MODULES_TO_RESET_ON_DROP = [
+  'k2Device',
   'server',
   'power',
   'webcams',
@@ -446,6 +447,10 @@ export const actions = {
 
   async notifyActiveSpoolSet ({ dispatch }, payload: Moonraker.Spoolman.SpoolIdResponse) {
     dispatch('spoolman/onActiveSpool', payload, { root: true })
+  },
+
+  async notifyK2DeviceStatusChanged ({ dispatch }, payload: import('../k2Device/types').K2DeviceStatus) {
+    dispatch('k2Device/onStatus', payload, { root: true })
   },
 
   async notifySpoolmanStatusChanged ({ dispatch }, payload: { spoolman_connected: boolean }) {

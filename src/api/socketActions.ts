@@ -2,6 +2,7 @@ import Vue from 'vue'
 import { Globals, Waits } from '@/globals'
 import type { NotifyOptions } from '@/plugins/socketClient'
 import { consola } from 'consola'
+import type { K2DeviceStatus, K2Fan } from '@/store/k2Device/types'
 
 const baseEmit = async <T = unknown>(method: string, options: NotifyOptions): Promise<T> => {
   if (!Vue.$socket) {
@@ -16,6 +17,22 @@ const baseEmit = async <T = unknown>(method: string, options: NotifyOptions): Pr
 }
 
 export const SocketActions = {
+  serverK2DeviceStatus () {
+    return baseEmit<K2DeviceStatus>('server.k2_device.status', {
+      dispatch: 'k2Device/onStatus'
+    })
+  },
+
+  serverK2DeviceFan (fan: K2Fan, speed: number) {
+    return baseEmit<{ sent: boolean }>('server.k2_device.fan', { params: { fan, speed } })
+  },
+
+  serverK2DeviceFilament (boxId: number, slotId: number, action: 'feed' | 'retract') {
+    return baseEmit<{ sent: boolean }>('server.k2_device.filament', {
+      params: { box_id: boxId, slot_id: slotId, action }
+    })
+  },
+
   machineServicesRestart (service: string, options?: NotifyOptions) {
     return baseEmit<Moonraker.OkResponse>(
       'machine.services.restart', {
