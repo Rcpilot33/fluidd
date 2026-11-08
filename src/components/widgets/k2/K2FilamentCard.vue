@@ -110,19 +110,14 @@ import { Component, Mixins, Watch } from 'vue-property-decorator'
 import K2DeviceMixin from '@/mixins/k2-device'
 import { SocketActions } from '@/api/socketActions'
 import type { K2Slot } from '@/store/k2Device/types'
+import { getCfsHumidity } from '@/util/k2-humidity'
 
 @Component
 export default class K2FilamentCard extends Mixins(K2DeviceMixin) {
   selected = ''
 
   get humidities () {
-    const boxes = new Map<number, number>()
-    for (const slot of this.device.slots) {
-      if (!slot.external && slot.humidity !== null && !boxes.has(slot.box_id)) {
-        boxes.set(slot.box_id, slot.humidity)
-      }
-    }
-    return Array.from(boxes, ([id, value]) => ({ id, value }))
+    return getCfsHumidity(this.device.slots)
   }
 
   slotKey (slot: K2Slot) {

@@ -42,6 +42,16 @@ const status: K2DeviceStatus = {
     humidity: index ? 23 : null
   }))
 }
+const unitCount = Math.min(4, Math.max(1, Number(new URLSearchParams(location.search).get('cfs')) || 1))
+const firstUnitSlots = status.slots.filter(slot => slot.box_id === 1)
+for (let boxId = 2; boxId <= unitCount; boxId++) {
+  status.slots.push(...firstUnitSlots.map(slot => ({
+    ...slot,
+    box_id: boxId,
+    label: `${boxId}${String.fromCharCode(65 + slot.slot_id)}`,
+    humidity: 23 + boxId
+  })))
+}
 const update = () => store.commit('k2Device/setStatus', structuredClone(status))
 update()
 setInterval(update, 2000)
