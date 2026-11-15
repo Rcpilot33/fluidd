@@ -12,7 +12,8 @@ def package(dist, output):
     release = json.loads((dist / 'release_info.json').read_text())
     if (release.get('project_owner') != 'Rcpilot33' or
             release.get('version') != (dist / '.version').read_text().strip() or
-            (dist / 'k2-ui-overlay-support.txt').read_text().strip() != '9' or
+            (dist / 'k2-ui-overlay-support.txt').read_text().strip() != '8' or
+            (dist / 'k2-settings-api.txt').read_text().strip() != '1' or
             (dist / 'k2-device-cards-api.txt').read_text().strip() != '1'):
         raise ValueError('Build Fluidd with the consolidated K2 features first')
     for name in ('index.html', 'sw.js'):

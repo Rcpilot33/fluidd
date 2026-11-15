@@ -5,7 +5,8 @@ K2-improvements branch `fluidd-ui-consolidation`. Neither branch is a release.
 
 The complete UI includes Bed Assist, Global Carto Scan/Touch, Global No-Carto,
 Material Z-offset editors, the Creality camera service, K2 Fans, and K2 Filament/CFS.
-Capability markers: `k2-ui-overlay-support.txt` = 9 and
+Capability markers: `k2-ui-overlay-support.txt` = 8 (legacy installer compatibility),
+`k2-settings-api.txt` = 1 (native settings dialogs), and
 `k2-device-cards-api.txt` = 1. Keep those files in future builds.
 
 ## Build and inspect
