@@ -59,7 +59,7 @@ On the test printer check:
 - Reinstall/update behavior and restoration of the saved previous UI.
 
 Use the K2-improvements installer menus to update the pinned test ZIP. After
-the installer’s test-updater isolation migration is applied, the stable Fluidd
+the installerâ€™s test-updater isolation migration is applied, the stable Fluidd
 web updater is absent from the software-update list during testing. The first version shows
 auto-refill state but does not edit filament profiles, reread RFID, or change
 auto-refill. The slot highlight is the user's selection, not a claim about the
@@ -89,3 +89,17 @@ Promote the installer branch through `integration-testing` to `main` after the
 combined Fluidd release is available, so new installations cannot fetch an older
 release lacking the required capabilities. Keep the marker/API contract compatible
 when making later Fluidd or bridge changes.
+
+
+## Stable v1.37.5 validation
+
+The owner upgraded a freshly installed K2 Plus through Fluidd's web updater,
+with the existing K2-improvements backends unchanged. Bed Assist, global
+stock-probe offsets, material offsets, dashboard, and macros worked. K2 cards
+remained hidden without the bridge. After the rc.2 line-ending correction,
+rerunning the old feature installers recognized the shared UI and preserved
+v1.37.5-rc.2. Stable v1.37.5 contains the same functional UI.
+
+The beta channel was used only to select the candidate ZIP. Stable users get
+v1.37.5 through the existing stable updater. Testers can return the Fluidd
+update-manager section to `channel: stable` after upgrading to v1.37.5.

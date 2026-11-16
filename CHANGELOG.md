@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [1.37.5](https://github.com/Rcpilot33/fluidd/compare/v1.37.4...v1.37.5) (2026-11-15)
+
+### Features
+
+* Include Bed Assist, global Z-offset, and material Z-offset dialogs in Fluidd.
+* Add K2 fan controls and a CFS card with per-unit humidity, available when the K2 device bridge is installed.
+* Support the Creality camera and default the K2 cards below Console in the right column, preserving saved layouts.
+
+### Compatibility
+
+* Existing K2-improvements installations can update Fluidd first. Existing settings dialogs remain available; device cards stay hidden without the bridge.
+* Preserve legacy overlay capability marker 8 with Unix line endings so older feature installers recognize the UI and do not replace it.
+* Verified web upgrade and rerunning the old Bed Assist, stock-probe global offset, and material offset installers on a K2 Plus. Macros remained functional and the new Fluidd version was preserved.
+* One CFS unit was tested on hardware; four units were tested with simulated data.
+
 ## [1.37.1](https://github.com/fluidd-core/fluidd/compare/v1.37.0...v1.37.1) (2026-06-01)
 
 

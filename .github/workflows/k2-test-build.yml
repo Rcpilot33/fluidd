@@ -28,6 +28,7 @@ jobs:
       - run: pnpm run test:unit --run
       - run: pnpm run circular-check
       - run: pnpm run build
+      - run: python3 tools/test_package_k2_build.py
       - run: python3 tools/package_k2_build.py
       - uses: actions/upload-artifact@v7
         with:
