@@ -31,7 +31,12 @@ def package(dist, output):
             entry.create_system = 3
             entry.external_attr = 0o100644 << 16
             entry.compress_type = ZIP_DEFLATED
-            bundle.writestr(entry, path.read_bytes())
+            data = path.read_bytes()
+            # Shell command substitution removes LF, but preserves CR on Linux.
+            if path.name in ('k2-ui-overlay-support.txt', 'k2-settings-api.txt',
+                             'k2-device-cards-api.txt'):
+                data = data.replace(b'\r\n', b'\n')
+            bundle.writestr(entry, data)
         entry = ZipInfo('k2-build.json', date_time=(2026, 1, 1, 0, 0, 0))
         entry.create_system = 3
         entry.external_attr = 0o100644 << 16
