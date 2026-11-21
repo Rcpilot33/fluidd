@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [1.37.6](https://github.com/Rcpilot33/fluidd/compare/v1.37.5...v1.37.6) (2026-11-21)
+
+### Fixed
+
+* Keep the plate list visible when selecting a plate, changing the increment, or adjusting a value in the Global No-Carto Z Offsets dialog on the K2 Pro and K2 Plus.
+
 ## [1.37.5](https://github.com/Rcpilot33/fluidd/compare/v1.37.4...v1.37.5) (2026-11-15)
 
 ### Features
