@@ -73,8 +73,8 @@ export const mutations = {
   },
 
   setBeginGlobalPrTouchOffsetsDialog (state, payload: { selectedIndex: number; increment: number }) {
-    state.globalPrTouchOffsetsDialog = {
-      open: state.globalPrTouchOffsetsDialog.open,
+    // Keep the visible rows intact until Klippy has sent the entire update.
+    state.pendingGlobalPrTouchOffsets = {
       selectedIndex: payload.selectedIndex,
       increment: payload.increment,
       surfaces: []
@@ -82,11 +82,16 @@ export const mutations = {
   },
 
   setGlobalPrTouchSurface (state, payload: GlobalPrTouchSurface) {
-    state.globalPrTouchOffsetsDialog.surfaces.push(payload)
+    state.pendingGlobalPrTouchOffsets?.surfaces.push(payload)
   },
 
   setGlobalPrTouchOffsetsDialogOpen (state, payload: boolean) {
-    state.globalPrTouchOffsetsDialog.open = payload
+    if (payload && state.pendingGlobalPrTouchOffsets) {
+      state.globalPrTouchOffsetsDialog = { ...state.pendingGlobalPrTouchOffsets, open: true }
+    } else if (!payload) {
+      state.globalPrTouchOffsetsDialog.open = false
+    }
+    state.pendingGlobalPrTouchOffsets = null
   },
 
   setResetGlobalTouchOffsetsDialog (state) {

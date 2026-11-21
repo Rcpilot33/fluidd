@@ -26,6 +26,7 @@ export const defaultState = (): ConsoleState => {
       increment: 0.010,
       surfaces: []
     },
+    pendingGlobalPrTouchOffsets: null,
     materialZOffsetsDialog: {
       open: false,
       materials: []

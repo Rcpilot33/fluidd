@@ -16,6 +16,7 @@ export interface ConsoleState {
   promptDialog: PromptDialog;
   globalTouchOffsetsDialog: GlobalTouchOffsetsDialog;
   globalPrTouchOffsetsDialog: GlobalPrTouchOffsetsDialog;
+  pendingGlobalPrTouchOffsets: Omit<GlobalPrTouchOffsetsDialog, 'open'> | null;
   materialZOffsetsDialog: MaterialZOffsetsDialog;
   m191SettingsDialog: M191SettingsDialog;
   consoleFilters: ConsoleFilter[];

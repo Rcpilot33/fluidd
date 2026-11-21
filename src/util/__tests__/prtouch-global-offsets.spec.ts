@@ -1,4 +1,6 @@
 import { describe, expect, it } from 'vitest'
+import { mutations } from '@/store/console/mutations'
+import { defaultState } from '@/store/console/state'
 import { parsePrTouchGlobalAction } from '../prtouch-global-offsets'
 
 describe('separate no-Carto global offset action protocol', () => {
@@ -35,5 +37,40 @@ describe('separate no-Carto global offset action protocol', () => {
     ]) {
       expect(parsePrTouchGlobalAction(`// action:prtouch_global_offsets_${message}`)).toBeUndefined()
     }
+  })
+})
+
+describe('no-Carto offset dialog refresh', () => {
+  it('keeps the complete visible list and selection until the next show', () => {
+    const state = defaultState()
+    const base = { name: 'DEFAULT', index: 0, value: -0.070, inherited: false }
+    const plate = { name: 'HIGH_TEMP', index: 1, value: -0.070, inherited: true }
+    mutations.setBeginGlobalPrTouchOffsetsDialog(state, { selectedIndex: 0, increment: 0.010 })
+    mutations.setGlobalPrTouchSurface(state, base)
+    mutations.setGlobalPrTouchSurface(state, plate)
+    expect(state.globalPrTouchOffsetsDialog.open).toBe(false)
+    mutations.setGlobalPrTouchOffsetsDialogOpen(state, true)
+
+    mutations.setBeginGlobalPrTouchOffsetsDialog(state, { selectedIndex: 1, increment: 0.005 })
+    mutations.setGlobalPrTouchSurface(state, base)
+    expect(state.globalPrTouchOffsetsDialog).toEqual({
+      open: true, selectedIndex: 0, increment: 0.010, surfaces: [base, plate]
+    })
+    const adjusted = { ...plate, value: -0.065, inherited: false }
+    mutations.setGlobalPrTouchSurface(state, adjusted)
+    mutations.setGlobalPrTouchOffsetsDialogOpen(state, true)
+    expect(state.globalPrTouchOffsetsDialog).toEqual({
+      open: true, selectedIndex: 1, increment: 0.005, surfaces: [base, adjusted]
+    })
+  })
+
+  it('discards an unfinished refresh on end and ignores stray rows and show', () => {
+    const state = defaultState()
+    mutations.setBeginGlobalPrTouchOffsetsDialog(state, { selectedIndex: 0, increment: 0.010 })
+    mutations.setGlobalPrTouchOffsetsDialogOpen(state, false)
+    mutations.setGlobalPrTouchSurface(state, { name: 'DEFAULT', index: 0, value: 0, inherited: false })
+    mutations.setGlobalPrTouchOffsetsDialogOpen(state, true)
+    expect(state.globalPrTouchOffsetsDialog.open).toBe(false)
+    expect(state.globalPrTouchOffsetsDialog.surfaces).toEqual([])
   })
 })
